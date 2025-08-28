@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Игра • Десятичная запятая ×÷ 10, 100, 1000, 0.1, 0.01</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&family=Rubik:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'Nunito',sans-serif; padding:20px; background:#faf7f4; color:#2b2b2f}
+    h1{font-family:'Rubik'; text-align:center; margin-bottom:20px;}
+    .card{background:#fff; padding:20px; border-radius:16px; box-shadow:0 6px 14px rgba(0,0,0,.1); margin-bottom:30px}
+    ul{padding-left:18px}
+    li{margin-bottom:8px; font-size:18px}
+    .example{background:#f6f6ff; padding:10px; border-radius:8px; margin-top:6px; font-weight:700}
+    .trainer{margin-top:15px; padding:15px; background:#fafafa; border-radius:12px; border:2px dashed #ddd}
+    .trainer h3{margin-top:0; font-size:18px}
+    button{border:none; background:#2fb47c; color:#fff; padding:8px 12px; border-radius:8px; font-weight:800; cursor:pointer; margin:5px 5px 10px 0}
+    .result{margin-top:10px; font-weight:800}
+    input{padding:6px 10px; font-size:16px; border-radius:6px; border:2px solid #ddd; margin-top:5px;}
+  </style>
+</head>
+<body>
+  <h1>Как работают умножение и деление на 10, 100, 1000…</h1>
+
+  <div class="card" id="rule1">
+    <h2>1. Умножение на 10, 100, 1000</h2>
+    <ul>
+      <li>Каждый ноль означает «сдвинь запятую вправо».</li>
+      <li>×10 → вправо на 1 знак, ×100 → вправо на 2, ×1000 → вправо на 3.</li>
+    </ul>
+    <div class="example">3,45 × 100 = 345</div>
+    <div class="trainer">
+      <h3>Тренажёр: умножение на 10, 100, 1000</h3>
+      <div id="task1"></div>
+      <input type="text" id="answer1" placeholder="Ответ..." />
+      <br>
+      <button onclick="newTask(1)">Новое задание</button>
+      <button onclick="checkAnswer(1)">Проверить</button>
+      <div class="result" id="result1"></div>
+    </div>
+  </div>
+
+  <div class="card" id="rule2">
+    <h2>2. Деление на 10, 100, 1000</h2>
+    <ul>
+      <li>Каждый ноль означает «сдвинь запятую влево».</li>
+      <li>÷10 → влево на 1 знак, ÷100 → влево на 2, ÷1000 → влево на 3.</li>
+    </ul>
+    <div class="example">789 ÷ 100 = 7,89</div>
+    <div class="trainer">
+      <h3>Тренажёр: деление на 10, 100, 1000</h3>
+      <div id="task2"></div>
+      <input type="text" id="answer2" placeholder="Ответ..." />
+      <br>
+      <button onclick="newTask(2)">Новое задание</button>
+      <button onclick="checkAnswer(2)">Проверить</button>
+      <div class="result" id="result2"></div>
+    </div>
+  </div>
+
+  <div class="card" id="rule3">
+    <h2>3. Умножение на 0.1 и 0.01</h2>
+    <ul>
+      <li><b>0.1 = 1/10</b>, <b>0.01 = 1/100</b>.</li>
+      <li>Умножение на 0.1 = раздели число на 10.</li>
+      <li>Умножение на 0.01 = раздели число на 100.</li>
+    </ul>
+    <div class="example">56 × 0.1 = 56 ÷ 10 = 5,6</div>
+    <div class="trainer">
+      <h3>Тренажёр: умножение на 0.1 и 0.01</h3>
+      <div id="task3"></div>
+      <input type="text" id="answer3" placeholder="Ответ..." />
+      <br>
+      <button onclick="newTask(3)">Новое задание</button>
+      <button onclick="checkAnswer(3)">Проверить</button>
+      <div class="result" id="result3"></div>
+    </div>
+  </div>
+
+  <div class="card" id="rule4">
+    <h2>4. Деление на 0.1 и 0.01</h2>
+    <ul>
+      <li>Делить на дробь = умножать на обратное число.</li>
+      <li>0.1 = 1/10 → делить на 0.1 = умножить на 10.</li>
+      <li>0.01 = 1/100 → делить на 0.01 = умножить на 100.</li>
+    </ul>
+    <div class="example">4,2 ÷ 0.01 = 4,2 × 100 = 420</div>
+    <div class="trainer">
+      <h3>Тренажёр: деление на 0.1 и 0.01</h3>
+      <div id="task4"></div>
+      <input type="text" id="answer4" placeholder="Ответ..." />
+      <br>
+      <button onclick="newTask(4)">Новое задание</button>
+      <button onclick="checkAnswer(4)">Проверить</button>
+      <div class="result" id="result4"></div>
+    </div>
+  </div>
+
+<script>
+  const tasks={
+    1:{ops:["×10","×100","×1000"], nums:[2.3,15.6,7.89,123.45]},
+    2:{ops:["÷10","÷100","÷1000"], nums:[230,156,789,12345]},
+    3:{ops:["×0.1","×0.01"], nums:[56,340,78.9,120]},
+    4:{ops:["÷0.1","÷0.01"], nums:[4.2,12.5,78.9,120]}
+  };
+  let answers={};
+
+  function newTask(n){
+    const area=document.getElementById('task'+n);
+    const data=tasks[n];
+    const num=data.nums[Math.floor(Math.random()*data.nums.length)];
+    const op=data.ops[Math.floor(Math.random()*data.ops.length)];
+    area.textContent=`${num} ${op} = ?`;
+    let res;
+    if(op.startsWith('×')) res=num*parseFloat(op.substring(1));
+    else res=num/parseFloat(op.substring(1));
+    answers[n]=res;
+    document.getElementById('result'+n).textContent='';
+    document.getElementById('answer'+n).value='';
+  }
+
+  function normalize(str){ return parseFloat(str.replace(',', '.')); }
+
+  function checkAnswer(n){
+    const val=normalize(document.getElementById('answer'+n).value);
+    if(isNaN(val)){document.getElementById('result'+n).textContent='Введите число'; document.getElementById('result'+n).style.color='black'; return;}
+    if(Math.abs(val-answers[n])<0.0001){
+      document.getElementById('result'+n).textContent='Верно! 🎉';
+      document.getElementById('result'+n).style.color='green';
+    } else {
+      document.getElementById('result'+n).textContent=`Неверно. Правильный ответ: ${answers[n]}`;
+      document.getElementById('result'+n).style.color='red';
+    }
+  }
+
+  // Инициализация всех тренажёров
+  newTask(1);
+  newTask(2);
+  newTask(3);
+  newTask(4);
+</script>
+
+</body>
+</html>
